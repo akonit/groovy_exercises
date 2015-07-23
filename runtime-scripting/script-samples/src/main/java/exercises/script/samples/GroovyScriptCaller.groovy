@@ -1,13 +1,45 @@
 package exercises.script.samples
 
-class GroovyScriptCaller {
-    def binding = new Binding()
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 
-    def engine = new GroovyScriptEngine([tmpDir.toURI().toURL()] as URL[])
+class GroovyScriptCaller {
     
-    def callScript = {
-        def greeter = engine.run('/home/ann/jet/NSPK/groovy_exercises/runtime-scripting/script-samples/outer_conf/SimpleScript.groovy', binding)                   
-        greeter greet()
+    def callScript (input) {
+        
+        def rules = [            
+            "gt" : {
+                        param -> 
+                        [
+                            "eval" : {
+                                restriction ->
+                                param > restriction
+                            }
+                        ]
+            },
+
+            "lt" : {
+                        param -> 
+                        [
+                            "eval" : {
+                                restriction ->
+                                param < restriction
+                            }
+                        ]
+            }
+        ]
+        
+        def shell = new GroovyShell()
+        def script = shell.parse(new File('/home/ann/jet/NSPK/groovy_exercises/runtime-scripting/script-samples/outer_conf/SimpleScript.groovy'))
+        def binding = new Binding();
+        script.setBinding(binding);
+            
+        script.check(input, rules)
+    }
+    
+    class ExtendedMap extends LinkedHashMap {
+        
     }
 }
 
