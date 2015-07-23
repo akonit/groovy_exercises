@@ -5,7 +5,7 @@ def parse (rules) {
 }
 
 def check (input, rules) {
-    //def result = parse(rules).gt.call(input).eval.call(2)
-    def error10 = parse rules gt input eval 6
+    //def result = parse(rules).gt(input).eval(2).lt(input).eval(19).summarize("error 10!!!")
+    def error10 = parse rules gt input eval 6 lt input eval 19 summarize "error 10!!!"
     println error10
 }

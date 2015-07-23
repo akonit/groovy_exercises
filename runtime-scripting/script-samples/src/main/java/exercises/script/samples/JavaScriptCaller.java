@@ -20,7 +20,7 @@ public class JavaScriptCaller {
             Class scriptClass = new GroovyClassLoader().parseClass( new File( "src/main/java/exercises/script/samples/GroovyScriptCaller.groovy" ) ) ;
             Object scriptInstance = scriptClass.newInstance() ;
             scriptClass.getDeclaredMethod( "callScript", new Class[] {Object.class} ).invoke( scriptInstance, new Object[] {13} ) ;
-  
+            scriptClass.getDeclaredMethod( "callScript", new Class[] {Object.class} ).invoke( scriptInstance, new Object[] {228} ) ;  
         } catch (Exception e) {
             e.printStackTrace();
         }
