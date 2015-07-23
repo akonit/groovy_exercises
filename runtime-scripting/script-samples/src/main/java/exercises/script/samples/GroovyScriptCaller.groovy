@@ -9,36 +9,26 @@ class GroovyScriptCaller {
     def callScript (input) {
         
         def rules = [            
-            "gt" : {
+            "greaterThen" : {
                 selfLink -> {
-                        param -> 
-                        [
-                            "eval" : {
-                                restriction ->
-                                def result = param > restriction
+                        restriction ->
+                                def result = selfLink.getInput() > restriction
                                 selfLink.updateResult(result)
                                 return selfLink
-                            }
-                        ]
                 }
             },
 
-            "lt" : {
+            "lessThen" : {
                 selfLink -> {
-                        param -> 
-                        [
-                            "eval" : {
-                                restriction ->
-                                def result = param < restriction
+                        restriction ->
+                                def result = selfLink.getInput() < restriction
                                 selfLink.updateResult(result)
                                 return selfLink
-                            }
-                        ]
                 }
             }
         ]
         
-        def rulesExt = new ExtendedMap(rules)
+        def rulesExt = new ExtendedMap(input, rules)
         
         def shell = new GroovyShell()
         def script = shell.parse(new File('/home/ann/jet/NSPK/groovy_exercises/runtime-scripting/script-samples/outer_conf/SimpleScript.groovy'))
@@ -50,11 +40,13 @@ class GroovyScriptCaller {
     
     class ExtendedMap<K,V> extends LinkedHashMap<K,V> implements Map<K,V> {
         
+        def input
         def result
         
-        public ExtendedMap(map) {
+        public ExtendedMap(input, map) {
             super()
             result = true
+            this.input = input
             map.each { key, value -> put(key, value)}
         }
         
@@ -66,6 +58,10 @@ class GroovyScriptCaller {
         
         public void updateResult(result) {
             this.result = this.result && result
+        }
+        
+        public Object getInput() {
+            input
         }
         
         public Object summarize(msg) {
