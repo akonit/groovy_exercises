@@ -1,10 +1,8 @@
-import java.util.LinkedHashMap;
-
-def parse (rules) {
-    return rules
+def parse (engine) {
+    return engine
 }
 
-def check (input, rules) {
-    def error10 = parse rules greaterThen 6 lessThen 19 summarize "error 10!!!"
-    println input + ": " + error10
+def check (engine) {
+    def error10 = parse engine greaterThen 6 lessThen 19 summarize "error 10!!!"
+    println engine.input + ": " + error10
 }
